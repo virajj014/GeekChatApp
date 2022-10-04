@@ -30,5 +30,16 @@ module.exports = {
         top: 50,
         left: 20,
         alignItems: 'center'
-    }
+    },
+    icons1: {
+        color: 'white',
+        fontSize: 30,
+    },
+    logo2: {
+        // width: 200,
+        height: 30,
+        resizeMode: 'contain',
+        // backgroundColor: 'white',
+        width: 100,
+    },
 }
