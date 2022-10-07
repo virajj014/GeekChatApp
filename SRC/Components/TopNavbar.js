@@ -3,11 +3,14 @@ import React from 'react'
 import logo from '../../assets/logo.png'
 import { icons1, logo2 } from '../CommonCss/pagecss'
 import { Ionicons } from '@expo/vector-icons';
-const TopNavbar = () => {
+const TopNavbar = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Image source={logo} style={logo2} />
-            <Ionicons name="chatbubbles" size={24} color="black" style={icons1} />
+            <Ionicons name="chatbubbles" size={24} color="black" style={icons1} onPress
+                ={
+                    () => navigation.navigate('All_Chats')
+                } />
         </View>
     )
 }
