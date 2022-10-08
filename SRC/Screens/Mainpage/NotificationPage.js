@@ -6,18 +6,18 @@ import Bottomnavbar from '../../Components/Bottomnavbar'
 import TopNavbar from '../../Components/TopNavbar'
 import FollowersRandomPost from '../../Components/FollowersRandomPost'
 
-const Mainpage = ({ navigation }) => {
+const NotificationPage = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <StatusBar />
-            <TopNavbar navigation={navigation} page={"MainPage"} />
-            <Bottomnavbar navigation={navigation} page={"MainPage"} />
-            <FollowersRandomPost />
+            <TopNavbar navigation={navigation} />
+            <Bottomnavbar navigation={navigation} page={"NotificationPage"} />
+            <Text style={formHead}>Notifications</Text>
         </View>
     )
 }
 
-export default Mainpage
+export default NotificationPage
 
 const styles = StyleSheet.create({
     container: {
@@ -27,3 +27,6 @@ const styles = StyleSheet.create({
         paddingVertical: 50,
     }
 })
+
+
+

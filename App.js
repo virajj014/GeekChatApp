@@ -19,6 +19,9 @@ import ForgotPassword_ChoosePassword from './SRC/Screens/LoginSignup/ForgotPassw
 import ForgotPassword_AccountRecovered from './SRC/Screens/LoginSignup/ForgotPassword/ForgotPassword_AccountRecovered';
 import Mainpage from './SRC/Screens/Mainpage/Mainpage';
 import All_Chats from './SRC/Screens/ChatSection/All_Chats';
+import SearchUserPage from './SRC/Screens/Mainpage/SearchUserPage';
+import NotificationPage from './SRC/Screens/Mainpage/NotificationPage';
+import My_UserProfile from './SRC/Screens/Profile/My_UserProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,10 +60,29 @@ export default function App() {
         <Stack.Screen name="All_Chats" component={All_Chats}
 
           options={{
+            animation: 'slide_from_left'
+          }}
+        />
+
+        <Stack.Screen name="SearchUserPage" component={SearchUserPage}
+
+          options={{
             animation: 'slide_from_bottom'
           }}
         />
+
+        <Stack.Screen name="NotificationPage" component={NotificationPage}
+        />
+
+        <Stack.Screen name="My_UserProfile" component={My_UserProfile}
+
+          options={{
+            animation: 'slide_from_left'
+          }}
+        />
       </Stack.Navigator>
+
+
     </NavigationContainer>
   );
 }

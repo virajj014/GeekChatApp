@@ -6,13 +6,61 @@ import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { icons1 } from '../CommonCss/pagecss';
 
-const Bottomnavbar = () => {
+const Bottomnavbar = ({ navigation, page }) => {
+    // console.log(page)
     return (
         <View style={styles.container}>
-            <MaterialCommunityIcons name="home-variant" size={24} color="black" style={icons1} />
-            <Fontisto name="search" size={24} color="black" style={icons1} />
-            <Ionicons name="ios-heart" size={24} color="black" style={icons1} />
-            <FontAwesome name="user-circle" size={24} color="black" style={icons1} />
+            {
+                page === 'MainPage' ?
+                    <MaterialCommunityIcons name="home-variant" size={24} color="black" style={styles.activeicons1}
+
+                        onPress={() => navigation.navigate('MainPage')} />
+                    :
+                    <MaterialCommunityIcons name="home-variant" size={24} color="black" style={icons1}
+
+                        onPress={() => navigation.navigate('MainPage')} />
+            }
+
+            {
+                page === 'SearchUserPage' ?
+                    <Fontisto name="search" size={24} color="black" style={styles.activeicons1}
+
+                        onPress={() => navigation.navigate('SearchUserPage')}
+                    />
+                    :
+                    <Fontisto name="search" size={24} color="black" style={icons1}
+
+                        onPress={() => navigation.navigate('SearchUserPage')}
+                    />
+            }
+            {
+                page === 'NotificationPage' ?
+                    <Ionicons name="ios-heart" size={24} color="black" style={styles.activeicons1}
+
+                        onPress={() => navigation.navigate('NotificationPage')}
+
+                    />
+                    :
+                    <Ionicons name="ios-heart" size={24} color="black" style={icons1}
+
+                        onPress={() => navigation.navigate('NotificationPage')}
+
+                    />
+            }
+            {
+                page === 'My_UserProfile' ?
+                    <FontAwesome name="user" size={24} color="black" style={styles.activeicons1}
+
+                        onPress={() => navigation.navigate('My_UserProfile')}
+
+                    />
+                    :
+                    <FontAwesome name="user" size={24} color="black" style={icons1}
+
+                        onPress={() => navigation.navigate('My_UserProfile')}
+
+                    />
+            }
         </View>
     )
 }
@@ -32,5 +80,12 @@ const styles = StyleSheet.create({
         width: '100%',
         zIndex: 100,
         paddingVertical: 10,
+        alignItems: 'center',
+    },
+    activeicons1: {
+        backgroundColor: 'white',
+        borderRadius: 50,
+        fontSize: 30,
+        padding: 10,
     }
 })

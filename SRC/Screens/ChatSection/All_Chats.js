@@ -2,7 +2,8 @@ import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { formHead2 } from '../../CommonCss/formcss';
-import ChartCard from '../../Cards/ChartCard';
+import ChatCard from '../../Cards/ChatCard';
+import { searchbar } from '../../CommonCss/pagecss';
 const All_Chats = ({ navigation }) => {
     let chats = [
         {
@@ -87,7 +88,7 @@ const All_Chats = ({ navigation }) => {
 
     const [keyword, setKeyword] = useState('')
 
-    console.log(keyword)
+    // console.log(keyword)
     return (
         <ScrollView style={styles.container}>
             <Ionicons name="chevron-back-circle" size={24} color="white" style={styles.gohomeicon}
@@ -97,7 +98,7 @@ const All_Chats = ({ navigation }) => {
 
             <View style={styles.c1}>
                 <Text style={formHead2}>Your Chats</Text>
-                <TextInput style={styles.searchbar} placeholder="Search"
+                <TextInput style={searchbar} placeholder="Search"
 
                     onChangeText={(text) => setKeyword(text)}
                 />
@@ -119,7 +120,7 @@ const All_Chats = ({ navigation }) => {
                             }
                         }
                     ).map((chat) => {
-                        return <ChartCard key={chat.username} chat={chat} />
+                        return <ChatCard key={chat.username} chat={chat} />
                     })
                 }
             </View>

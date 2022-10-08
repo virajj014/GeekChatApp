@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 
-const ChartCard = ({ chat }) => {
+const ChatCard = ({ chat }) => {
 
     // console.log(chat)
     return (
@@ -16,7 +16,7 @@ const ChartCard = ({ chat }) => {
     )
 }
 
-export default ChartCard
+export default ChatCard
 
 const styles = StyleSheet.create({
     ChatCard: {
