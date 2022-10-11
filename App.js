@@ -22,7 +22,7 @@ import All_Chats from './SRC/Screens/ChatSection/All_Chats';
 import SearchUserPage from './SRC/Screens/Mainpage/SearchUserPage';
 import NotificationPage from './SRC/Screens/Mainpage/NotificationPage';
 import My_UserProfile from './SRC/Screens/Profile/My_UserProfile';
-
+import Settings1 from './SRC/Screens/Settings/Settings1';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -80,6 +80,9 @@ export default function App() {
             animation: 'slide_from_left'
           }}
         />
+        <Stack.Screen name="Settings_1" component={Settings1} />
+
+
       </Stack.Navigator>
 
 
