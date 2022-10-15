@@ -6,7 +6,25 @@ import { formbtn, formHead, formHead2, formHead3, formInput, formTextLinkCenter,
 import { MaterialIcons } from '@expo/vector-icons';
 
 
-const ForgotPassword_EnterVerificationCode = ({ navigation }) => {
+const ForgotPassword_EnterVerificationCode = ({ navigation, route }) => {
+    const { useremail, userVerificationCode } = route.params;
+    console.log(useremail, userVerificationCode)
+
+    const [verificationCode, setVerificationCode] = React.useState('');
+
+
+    const handleVerificationCode = () => {
+
+        if (verificationCode != userVerificationCode) {
+            alert('Invalid Verification Code')
+        }
+        else {
+            alert('Verification Code Matched')
+            navigation.navigate('ForgotPassword_ChoosePassword', { email: useremail })
+        }
+
+        // navigation.navigate('ForgotPassword_ChoosePassword')
+    }
     return (
         <View style={containerFull}>
             <TouchableOpacity onPress={() => navigation.navigate('Login')} style={goback}>
@@ -24,10 +42,12 @@ const ForgotPassword_EnterVerificationCode = ({ navigation }) => {
             <Image source={logo} style={logo1} />
             <Text style={formHead3}>A verification code has been sent to your email</Text>
 
-            <TextInput placeholder="Enter 6-Digit Code here" style={formInput} />
+            <TextInput placeholder="Enter 6-Digit Code here" style={formInput}
+                onChangeText={(text) => setVerificationCode(text)}
+            />
 
             <Text style={formbtn}
-                onPress={() => navigation.navigate('ForgotPassword_ChoosePassword')}
+                onPress={() => handleVerificationCode()}
             >
                 Next
             </Text>

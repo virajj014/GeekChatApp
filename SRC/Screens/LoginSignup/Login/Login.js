@@ -1,27 +1,73 @@
-import { StyleSheet, Text, View, Image, TextInput } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, ActivityIndicator } from 'react-native'
 import React from 'react'
 import logo from '../../../../assets/logo.png'
 import { containerFull, hr80, logo1 } from '../../../CommonCss/pagecss'
 import { formbtn, formHead, formInput, formTextLinkCenter, formTextLinkRight } from '../../../CommonCss/formcss'
 
 const Login = ({ navigation }) => {
+    const [email, setEmail] = React.useState('')
+    const [password, setPassword] = React.useState('')
+    const [loading, setLoading] = React.useState(false)
+
+    const handleLogin = () => {
+        if (email == '' || password == '') {
+            alert('Please enter email and password')
+        }
+        else {
+            setLoading(true)
+            fetch('http://10.0.2.2:3000/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        setLoading(false)
+                        alert(data.error)
+                    }
+                    else if (data.message == 'Successfully Signed In') {
+                        setLoading(false)
+                        navigation.navigate('MainPage', { data })
+                    }
+                })
+                .catch(err => {
+                    setLoading(false)
+                    alert(err)
+                })
+        }
+        // navigation.navigate('MainPage')
+    }
     return (
         <View style={containerFull}>
             <Image source={logo} style={logo1} />
             <Text style={formHead}>Login</Text>
-            <TextInput placeholder="Enter Your Email" style={formInput} />
+            <TextInput placeholder="Enter Your Email" style={formInput}
+                onChangeText={(text) => setEmail(text)}
+            />
             <TextInput placeholder="Enter Your Password" style={formInput}
                 secureTextEntry={true}
+                onChangeText={(text) => setPassword(text)}
             />
             <Text style={formTextLinkRight}
                 onPress={() => navigation.navigate('ForgotPassword_EnterEmail')}
             >Forgot Password?</Text>
 
-            <Text style={formbtn} onPress={
-                () => navigation.navigate('MainPage')
-            }>
-                Submit
-            </Text>
+            {
+                loading ?
+                    <ActivityIndicator size="large" color="white" />
+                    :
+                    <Text style={formbtn} onPress={
+                        () => handleLogin()
+                    }>
+                        Submit
+                    </Text>
+            }
 
 
             <View style={hr80}></View>
