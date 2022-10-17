@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, ActivityIndicator, AsyncStorage } from 'react-native'
 import React from 'react'
 import logo from '../../../../assets/logo.png'
 import { containerFull, hr80, logo1 } from '../../../CommonCss/pagecss'
@@ -26,13 +26,14 @@ const Login = ({ navigation }) => {
                 })
             })
                 .then(res => res.json())
-                .then(data => {
+                .then(async data => {
                     if (data.error) {
                         setLoading(false)
                         alert(data.error)
                     }
                     else if (data.message == 'Successfully Signed In') {
                         setLoading(false)
+                        await AsyncStorage.setItem('user', JSON.stringify(data))
                         navigation.navigate('MainPage', { data })
                     }
                 })

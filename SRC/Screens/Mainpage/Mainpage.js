@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, StatusBar } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, StatusBar, AsyncStorage } from 'react-native'
+import React, { useEffect } from 'react'
 import { containerFull } from '../../CommonCss/pagecss'
 import { formHead } from '../../CommonCss/formcss'
 import Bottomnavbar from '../../Components/Bottomnavbar'
@@ -7,6 +7,18 @@ import TopNavbar from '../../Components/TopNavbar'
 import FollowersRandomPost from '../../Components/FollowersRandomPost'
 
 const Mainpage = ({ navigation }) => {
+    const [userdata, setUserdata] = React.useState(null)
+    useEffect(() => {
+        AsyncStorage.getItem('user')
+            .then(data => {
+                // console.log('async userdata ', data)
+                setUserdata(JSON.parse(data))
+            })
+            .catch(err => alert(err))
+    }, [])
+
+    console.log('userdata ', userdata)
+
     return (
         <View style={styles.container}>
             <StatusBar />

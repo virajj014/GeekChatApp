@@ -23,6 +23,8 @@ import SearchUserPage from './SRC/Screens/Mainpage/SearchUserPage';
 import NotificationPage from './SRC/Screens/Mainpage/NotificationPage';
 import My_UserProfile from './SRC/Screens/Profile/My_UserProfile';
 import Settings1 from './SRC/Screens/Settings/Settings1';
+import ChangePassword from './SRC/Screens/Settings/ChangePassword';
+import EditProfile from './SRC/Screens/Settings/EditProfile';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -32,6 +34,7 @@ export default function App() {
         headerShown: false,
         animation: 'slide_from_right'
       }}>
+        <Stack.Screen name="MainPage" component={Mainpage} />
         <Stack.Screen name="Login" component={Login}
           options={{
             // animation: 'slide_from_right'
@@ -55,7 +58,7 @@ export default function App() {
         <Stack.Screen name="ForgotPassword_AccountRecovered" component={ForgotPassword_AccountRecovered} />
 
 
-        <Stack.Screen name="MainPage" component={Mainpage} />
+
 
         <Stack.Screen name="All_Chats" component={All_Chats}
 
@@ -81,6 +84,8 @@ export default function App() {
           }}
         />
         <Stack.Screen name="Settings_1" component={Settings1} />
+        <Stack.Screen name="ChangePassword" component={ChangePassword} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
 
 
       </Stack.Navigator>
