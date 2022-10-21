@@ -25,6 +25,9 @@ import My_UserProfile from './SRC/Screens/Profile/My_UserProfile';
 import Settings1 from './SRC/Screens/Settings/Settings1';
 import ChangePassword from './SRC/Screens/Settings/ChangePassword';
 import EditProfile from './SRC/Screens/Settings/EditProfile';
+import ChangeUsername from './SRC/Screens/Settings/ChangeUsername';
+import ChangeDescription from './SRC/Screens/Settings/ChangeDescription';
+import UploadProfilePicture from './SRC/Screens/Settings/UploadProfilePicture';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -57,9 +60,6 @@ export default function App() {
         <Stack.Screen name="ForgotPassword_ChoosePassword" component={ForgotPassword_ChoosePassword} />
         <Stack.Screen name="ForgotPassword_AccountRecovered" component={ForgotPassword_AccountRecovered} />
 
-
-
-
         <Stack.Screen name="All_Chats" component={All_Chats}
 
           options={{
@@ -86,8 +86,9 @@ export default function App() {
         <Stack.Screen name="Settings_1" component={Settings1} />
         <Stack.Screen name="ChangePassword" component={ChangePassword} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
-
-
+        <Stack.Screen name="ChangeUsername" component={ChangeUsername} />
+        <Stack.Screen name="ChangeDescription" component={ChangeDescription} />
+        <Stack.Screen name='UploadProfilePicture' component={UploadProfilePicture} />
       </Stack.Navigator>
 
 

@@ -6,9 +6,12 @@ import Bottomnavbar from '../../Components/Bottomnavbar'
 import TopNavbar from '../../Components/TopNavbar'
 import FollowersRandomPost from '../../Components/FollowersRandomPost'
 import nopic from '../../../assets/nopic.png'
+import { Foundation } from '@expo/vector-icons';
+
 const My_UserProfile = ({ navigation }) => {
     const [userdata, setUserdata] = React.useState(null)
-    useEffect(() => {
+
+    const loaddata = async () => {
         AsyncStorage.getItem('user')
             .then(async (value) => {
                 fetch('http://10.0.2.2:3000/userdata', {
@@ -35,6 +38,9 @@ const My_UserProfile = ({ navigation }) => {
             .catch(err => {
                 navigation.navigate('Login')
             })
+    }
+    useEffect(() => {
+        loaddata()
     }, [])
 
     console.log('userdata ', userdata)
@@ -75,7 +81,9 @@ const My_UserProfile = ({ navigation }) => {
             <StatusBar />
             <TopNavbar navigation={navigation} page={"My_UserProfile"} />
             <Bottomnavbar navigation={navigation} page={"My_UserProfile"} />
-
+            <Foundation name="refresh" size={30} color="white" style={styles.refresh}
+                onPress={() => loaddata()}
+            />
             {
                 userdata ?
                     <ScrollView>
@@ -221,5 +229,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 200
+    },
+    refresh: {
+        position: 'absolute',
+        top: 50,
+        right: 5,
+        zIndex: 1,
     }
 })
