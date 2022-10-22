@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, StatusBar, TextInput, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, Text, View, StatusBar, TextInput, ScrollView, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { containerFull, searchbar } from '../../CommonCss/pagecss'
-import { formHead } from '../../CommonCss/formcss'
+import { formHead, formHead2 } from '../../CommonCss/formcss'
 import Bottomnavbar from '../../Components/Bottomnavbar'
 import TopNavbar from '../../Components/TopNavbar'
 import FollowersRandomPost from '../../Components/FollowersRandomPost'
@@ -9,62 +9,50 @@ import UserCard from '../../Cards/UserCard'
 
 const SearchUserPage = ({ navigation }) => {
 
-    let data = [
-        {
-            username: "harshal1",
-            profile_image: "https://picsum.photos/200/300"
-        },
-        {
-            username: "viraj1",
-            profile_image: "https://picsum.photos/200/300"
-        },
-        {
-            username: "ravi123",
-            profile_image: "https://picsum.photos/200/300"
-        },
-        {
-            username: "harshal2",
-            profile_image: "https://picsum.photos/200/300"
-        },
-        {
-            username: "viraj2",
-            profile_image: "https://picsum.photos/200/300"
-        },
-        {
-            username: "ravi1234",
-            profile_image: "https://picsum.photos/200/300"
-        },
-        {
-            username: "user1",
-            profile_image: "https://picsum.photos/200/300",
-        },
-        {
-            username: "user2",
-            profile_image: "https://picsum.photos/200/300",
-        },
-        {
-            username: "auser3",
-            profile_image: "https://picsum.photos/200/300",
-        },
-        {
-            username: "auser5",
-            profile_image: "https://picsum.photos/200/300",
-        },
-        {
-            username: "buser6",
-            profile_image: "https://picsum.photos/200/300",
-        },
-        {
-            username: "buser9",
-            profile_image: "https://picsum.photos/200/300",
-        },
-        {
-            username: "cuser10",
-            profile_image: "https://picsum.photos/200/300",
-        }
-    ]
 
     const [keyword, setKeyword] = useState("")
+    const [loading, setLoading] = useState(false)
+    const [data, setData] = useState([])
+    const [error, setError] = useState(null)
+
+    const getallusers = async () => {
+        if (keyword.length > 0) {
+            setLoading(true)
+            fetch('http://10.0.2.2:3000/searchuser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ keyword: keyword })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // console.log(data)
+                    if (data.error) {
+                        setData([])
+                        setError(data.error)
+                        setLoading(false)
+                    }
+                    else if (data.message == 'User Found') {
+                        setError(null)
+                        setData(data.user)
+                        setLoading(false)
+                    }
+                })
+                .catch(err => {
+                    setData([])
+                    setLoading(false)
+                })
+        }
+        else {
+            setData([])
+            setError(null)
+        }
+    }
+
+    useEffect(() => {
+        getallusers()
+    }, [keyword])
     return (
         <View style={styles.container}>
             <StatusBar />
@@ -77,22 +65,28 @@ const SearchUserPage = ({ navigation }) => {
                 }}
             />
 
-            <ScrollView style={styles.userlists}>
-                {
-                    data.filter(
-                        (user) => {
-                            if (keyword == "") {
-                                return null
-                            }
-                            else if (user.username.toLowerCase().includes(keyword.toLowerCase())) {
-                                return user
-                            }
+            {
+                loading ?
+                    <ActivityIndicator size="large" color="white" />
+                    :
+                    <>
+                        {
+                            error ?
+                                <Text style={formHead2}>{error}</Text>
+                                :
+
+                                <ScrollView style={styles.userlists}>
+                                    {
+                                        data.map((item, index) => {
+                                            return <UserCard key={item.username} user={item}
+                                                navigation={navigation}
+                                            />
+                                        })
+                                    }
+                                </ScrollView>
                         }
-                    ).map((item, index) => {
-                        return <UserCard key={item.username} user={item} />
-                    })
-                }
-            </ScrollView>
+                    </>
+            }
         </View>
     )
 }
