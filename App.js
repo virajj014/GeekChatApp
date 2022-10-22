@@ -28,6 +28,7 @@ import EditProfile from './SRC/Screens/Settings/EditProfile';
 import ChangeUsername from './SRC/Screens/Settings/ChangeUsername';
 import ChangeDescription from './SRC/Screens/Settings/ChangeDescription';
 import UploadProfilePicture from './SRC/Screens/Settings/UploadProfilePicture';
+import AddPost from './SRC/Screens/Mainpage/AddPost';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -89,6 +90,9 @@ export default function App() {
         <Stack.Screen name="ChangeUsername" component={ChangeUsername} />
         <Stack.Screen name="ChangeDescription" component={ChangeDescription} />
         <Stack.Screen name='UploadProfilePicture' component={UploadProfilePicture} />
+
+        <Stack.Screen name='AddPost' component={AddPost} />
+
       </Stack.Navigator>
 
 
