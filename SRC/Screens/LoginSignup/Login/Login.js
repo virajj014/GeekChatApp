@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View, Image, TextInput, ActivityIndicator, AsyncStorage } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, ActivityIndicator} from 'react-native'
 import React from 'react'
 import logo from '../../../../assets/logo.png'
 import { containerFull, hr80, logo1 } from '../../../CommonCss/pagecss'
 import { formbtn, formHead, formInput, formTextLinkCenter, formTextLinkRight } from '../../../CommonCss/formcss'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
     const [email, setEmail] = React.useState('')

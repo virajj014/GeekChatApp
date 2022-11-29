@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, StatusBar, ScrollView, Image, AsyncStorage, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, StatusBar, ScrollView, Image,  ActivityIndicator } from 'react-native'
 import React, { useEffect } from 'react'
 import { containerFull } from '../../CommonCss/pagecss'
 import { formHead } from '../../CommonCss/formcss'
@@ -7,7 +7,7 @@ import TopNavbar from '../../Components/TopNavbar'
 import FollowersRandomPost from '../../Components/FollowersRandomPost'
 import nopic from '../../../assets/nopic.png'
 import { Foundation } from '@expo/vector-icons';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const My_UserProfile = ({ navigation }) => {
     const [userdata, setUserdata] = React.useState(null)
 
@@ -47,35 +47,7 @@ const My_UserProfile = ({ navigation }) => {
 
 
 
-    // const data = {
-    //     username: 'harshal123',
-    //     followers: 1100,
-    //     following: 1500,
-    //     description: "I am a software developer and I love to code",
-    //     profile_image: 'https://picsum.photos/500/500',
-    //     posts: [
-    //         {
-    //             id: 1,
-    //             post_image: 'https://picsum.photos/400/400',
-    //         },
-    //         {
-    //             id: 2,
-    //             post_image: 'https://picsum.photos/300/300',
-    //         },
-    //         {
-    //             id: 3,
-    //             post_image: 'https://picsum.photos/200/200',
-    //         },
-    //         {
-    //             id: 4,
-    //             post_image: 'https://picsum.photos/250/150',
-    //         },
-    //         {
-    //             id: 5,
-    //             post_image: 'https://picsum.photos/550/550',
-    //         }
-    //     ]
-    // }
+
     return (
         <View style={styles.container}>
             <StatusBar />

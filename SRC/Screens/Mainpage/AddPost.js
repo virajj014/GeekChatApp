@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ActivityIndicator, AsyncStorage } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { containerFull, goback, hr80, logo1 } from '../../CommonCss/pagecss'
 import logo from '../../../assets/logo.png'
@@ -6,6 +6,7 @@ import { formbtn, formHead, formHead2, formHead3, formInput, formTextLinkCenter,
 import { MaterialIcons } from '@expo/vector-icons';
 import { firebase } from '../../Firebase/Config'
 import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddPost = ({ navigation }) => {
 

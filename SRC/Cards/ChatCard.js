@@ -1,18 +1,59 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
+import nopic from '../../assets/nopic.png'
+import { TouchableOpacity } from 'react-native-web'
+const ChatCard = ({ chat, navigation }) => {
 
-const ChatCard = ({ chat }) => {
-
-    // console.log(chat)
+    console.log(chat.fuserid)
+    let [fuserdata, setFuserdata] = React.useState(null);
+    useEffect(() => {
+        fetch('http://10.0.2.2:3000/getuserbyid', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userid: chat.fuserid
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                setFuserdata(data)
+            })
+            .catch(err => {
+                alert('Something went wrong')
+                setFuserdata(null)
+            })
+    }, [])
     return (
-        <View style={styles.ChatCard}>
-            <Image source={{ uri: chat.profile_image }} style={styles.image} />
+
+        <View style={styles.ChatCard} >
+            {
+                fuserdata?.user?.profilepic ?
+                    <Image source={{ uri: fuserdata?.user?.profilepic }} style={styles.image} />
+                    :
+                    <Image source={nopic} style={styles.image} />
+            }
 
             <View style={styles.c1}>
-                <Text style={styles.username}>{chat.username}</Text>
+                <Text style={styles.username} onPress={
+                    
+                        ()=>{
+                            navigation.navigate('MessagePage',{
+                                fuseremail : fuserdata.user.email,
+                                fuserid : fuserdata.user._id,
+                            })
+                        }
+                    
+                }>{fuserdata?.user?.username}</Text>
                 <Text style={styles.lastmessage}>{chat.lastmessage}</Text>
             </View>
         </View>
+
+
+
+
     )
 }
 

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, StatusBar, ScrollView, Image, AsyncStorage, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, StatusBar, ScrollView, Image, ActivityIndicator } from 'react-native'
 import React, { useEffect } from 'react'
 import { containerFull } from '../../CommonCss/pagecss'
 import { formHead } from '../../CommonCss/formcss'
@@ -7,10 +7,27 @@ import TopNavbar from '../../Components/TopNavbar'
 import FollowersRandomPost from '../../Components/FollowersRandomPost'
 import nopic from '../../../assets/nopic.png'
 import { Foundation } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Other_UserProfile = ({ navigation, route }) => {
     const [userdata, setUserdata] = React.useState(null)
+    const [issameuser, setIssameuser] = React.useState(false)
 
+    const ismyprofile = (
+        otheruser
+    ) => {
+
+        AsyncStorage.getItem('user').then((loggeduser) => {
+            const loggeduserobj = JSON.parse(loggeduser);
+            if (loggeduserobj.user._id == otheruser._id) {
+                setIssameuser(true)
+
+            }
+            else {
+                setIssameuser(false)
+            }
+        })
+    }
     const { user } = route.params
     // console.log(user)
     const loaddata = async () => {
@@ -25,6 +42,8 @@ const Other_UserProfile = ({ navigation, route }) => {
             .then(data => {
                 if (data.message == 'User Found') {
                     setUserdata(data.user)
+                    ismyprofile(data.user)
+                    CheckFollow(data.user)
                 }
                 else {
                     alert('User Not Found')
@@ -45,7 +64,94 @@ const Other_UserProfile = ({ navigation, route }) => {
     // console.log('userdata ', userdata)
 
 
+    const FollowThisUser = async () => {
+        console.log('FollowThisUser')
+        const loggeduser = await AsyncStorage.getItem('user');
+        const loggeduserobj = JSON.parse(loggeduser);
+        fetch('http://10.0.2.2:3000/followuser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                followfrom: loggeduserobj.user.email,
+                followto: userdata.email
+            })
+        }).then(res => res.json())
+            .then(data => {
+                if (data.message == 'User Followed') {
+                    // alert('Followed')
+                    loaddata()
+                    setIsfollowing(true)
+                }
+                else {
+                    alert('Something Went Wrong')
+                }
+            })
+    }
 
+    const [isfollowing, setIsfollowing] = React.useState(false)
+    const CheckFollow = async (otheruser) => {
+        AsyncStorage.getItem('user')
+            .then(loggeduser => {
+                const loggeduserobj = JSON.parse(loggeduser);
+                fetch('http://10.0.2.2:3000/checkfollow', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        followfrom: loggeduserobj.user.email,
+                        followto: otheruser.email
+                    })
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.message == 'User in following list') {
+                            setIsfollowing(true)
+                        }
+                        else if (
+                            data.message == 'User not in following list'
+                        ) {
+
+                            setIsfollowing(false)
+                        }
+                        else {
+                            // loaddata()
+                            alert('Something Went Wrong')
+                        }
+                    })
+            })
+
+    }
+
+
+
+    const UnfollowThisUser = async () => {
+        console.log('UnfollowThisUser')
+        const loggeduser = await AsyncStorage.getItem('user');
+        const loggeduserobj = JSON.parse(loggeduser);
+        fetch('http://10.0.2.2:3000/unfollowuser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                followfrom: loggeduserobj.user.email,
+                followto: userdata.email
+            })
+        }).then(res => res.json())
+            .then(data => {
+                if (data.message == 'User Unfollowed') {
+                    // alert('Followed')
+                    loaddata()
+                    setIsfollowing(false)
+                }
+                else {
+                    alert('Something Went Wrong')
+                }
+            })
+    }
     return (
         <View style={styles.container}>
             <StatusBar />
@@ -65,14 +171,40 @@ const Other_UserProfile = ({ navigation, route }) => {
                                     <Image style={styles.profilepic} source={nopic} />
                             }
                             <Text style={styles.txt}>@{userdata.username}</Text>
-                            <View style={styles.row}>
-                                <Text style={
-                                    styles.follow
-                                }>Follow</Text>
-                                <Text
-                                    style={styles.message}
-                                >Message</Text>
-                            </View>
+
+                            {
+                                issameuser ?
+                                    <></>
+                                    :
+                                    <View style={styles.row}>
+                                        {
+                                            isfollowing ?
+                                                <Text style={
+                                                    styles.follow
+                                                }
+                                                    onPress={() => UnfollowThisUser()}
+                                                >Following</Text>
+                                                :
+                                                <Text style={
+                                                    styles.follow
+                                                }
+                                                    onPress={() => FollowThisUser()}
+                                                >Follow</Text>
+                                        }
+                                        <Text
+                                            style={styles.message}
+                                            onPress={
+                                                ()=>{
+                                                    navigation.navigate('MessagePage',{
+                                                        fuseremail : userdata.email,
+                                                        fuserid : userdata._id,
+                                                    })
+                                                
+                                                }
+                                            }
+                                        >Message</Text>
+                                    </View>
+                            }
 
                             <View style={styles.c11}>
                                 <View style={styles.c111}>
@@ -99,29 +231,38 @@ const Other_UserProfile = ({ navigation, route }) => {
 
                         </View>
                         {
-                            userdata.posts.length > 0 ?
-                                <View style={styles.c1}>
-                                    <Text style={styles.txt}>Your Posts</Text>
-                                    <View style={styles.c13}>
-                                        {
-                                            userdata.posts?.map(
-                                                (item) => {
-                                                    return (
-                                                        <Image key={item.post} style={styles.postpic}
-                                                            source={{ uri: item.post }}
-                                                        />
-                                                    )
-                                                }
-                                            )
-                                        }
-                                    </View>
+                            isfollowing || issameuser ?
+                                <View>
+                                    {
+                                        userdata.posts.length > 0 ?
+                                            <View style={styles.c1}>
+                                                <Text style={styles.txt}>Posts</Text>
+                                                <View style={styles.c13}>
+                                                    {
+                                                        userdata.posts?.map(
+                                                            (item) => {
+                                                                return (
+                                                                    <Image key={item.post} style={styles.postpic}
+                                                                        source={{ uri: item.post }}
+                                                                    />
+                                                                )
+                                                            }
+                                                        )
+                                                    }
+                                                </View>
+                                            </View>
+                                            :
+                                            <View style={styles.c2}>
+                                                <Text style={styles.txt1}>This user has not posted anything yet</Text>
+                                            </View>
+                                    }
                                 </View>
+
                                 :
                                 <View style={styles.c2}>
-                                    <Text style={styles.txt1}>You have not posted anything yet</Text>
+                                    <Text style={styles.txt1}>Follow to see posts</Text>
                                 </View>
                         }
-
                     </ScrollView>
 
                     :

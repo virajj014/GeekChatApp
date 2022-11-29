@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ActivityIndicator, AsyncStorage } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ActivityIndicator} from 'react-native'
 import React, { useState } from 'react'
 import { containerFull, goback, hr80, logo1 } from '../../CommonCss/pagecss'
 import logo from '../../../assets/logo.png'
 import { formbtn, formHead, formHead2, formHead3, formInput, formTextLinkCenter, formTextLinkRight } from '../../CommonCss/formcss'
 import { MaterialIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const ChangePassword = ({ navigation }) => {
 
     const [oldpassword, setOldpassword] = useState('')
